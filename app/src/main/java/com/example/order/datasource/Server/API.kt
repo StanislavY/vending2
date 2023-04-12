@@ -7,12 +7,12 @@ import retrofit2.http.*
 interface API {
 
     @GET("GET")
-    fun getDataFrom1C(
+    fun getDataRemoteServer(
 
     ): Call<List<ServerResponseData>>
 
     @POST("SET")
-    fun pullDataTo1C(@Body result:List<ListItem>):Call<List<ServerResponseData>>
+    fun pullDataToRemoteServer(@Body result:List<ListItem>):Call<List<ServerResponseData>>
 
 
 

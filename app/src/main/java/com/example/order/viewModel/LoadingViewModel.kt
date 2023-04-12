@@ -15,8 +15,8 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
                        private val retrofit1C: Retrofit1C = Retrofit1C(),
                        private val converters: Converters = Converters()
 ):ViewModel() {
-    private val createGlobalListCase: CreateListOfAllItemsFrom1CDBCase = CreateListOfAllItemsFrom1CDBCaseImpl()
-    private val loadFrom1CtoDBCase:LoadDataFrom1CCase=LoadDataFrom1CCaseImpl()
+    private val createGlobalListCase: CreateListOfAllItemsFromDBCase = CreateListOfAllItemsFromDBCaseImpl()
+    private val loadFrom1CtoDBCase:LoadDataFromRemoteServerCase=LoadDataFromRemoteServerCaseImpl()
     private val firebase:FireBaseCase=FirebaseCaseImpl()
 
     fun getDataFromServerForDB(): LiveData<AppState> {
@@ -26,8 +26,8 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
     fun clearDB(){
         loadFrom1CtoDBCase.executeDeletingDataFromDb()
     }
-    fun putDataFromServer1CToLocalDatabase(listFromServer:List<ListItem>){
-        loadFrom1CtoDBCase.executeDownloadingDataFrom1CToDB(listFromServer)
+    fun putDataFromServerToLocalDatabase(listFromServer:List<ListItem>){
+        loadFrom1CtoDBCase.executeDownloadingDataFromServerToDB(listFromServer)
 
     }
     suspend fun putDataFromFireBaseLocalDatabase(listFromServer:List<ListItem>){
@@ -45,7 +45,7 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
         if (apiKey.isBlank()) {
             AppState.Error(Throwable("You need API key"))
         } else {
-            retrofit1C.getRetrofit().getDataFrom1C().enqueue(object :
+            retrofit1C.getRetrofit().getDataRemoteServer().enqueue(object :
                 Callback<List<ServerResponseData>> {
                 override fun onResponse(
                     call: Call<List<ServerResponseData>>,

@@ -14,8 +14,13 @@ class CustomDeviceImpl(
 ) : CustomDevice {
 
     companion object {
+       /*const val SCANNER_VID = 7554
+        const val SCANNER_PID = 23712*/
+        /*const val VENDOR_ID = 7554
+        const val PRODUCT_ID = 23712*/
         const val VENDOR_ID = 4292
-        const val PRODUCT_ID = 60000
+         const val PRODUCT_ID = 60000
+
         const val CUSTOM_HID_INTERFACE = 0x00
         const val BUTTON_REPORT_ID = 0x01
         const val LED_REPORT_ID = 0x02

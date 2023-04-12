@@ -29,15 +29,8 @@ class MainFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val questionsAdapter = VariantAdapter()
     private lateinit var viewModel: MainViewModel
-   private val fireBase:FireBaseCase=FirebaseCaseImpl()
-    private val load:LoadDataFrom1CCase=LoadDataFrom1CCaseImpl()
-    private val list:CreateListOfAllItemsFrom1CDBCase=CreateListOfAllItemsFrom1CDBCaseImpl()
     private val storage = Firebase.storage
-    private val storageRef = storage.reference
-
-
 
 
     override fun onCreateView(
@@ -47,10 +40,6 @@ class MainFragment : Fragment() {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
-
-
-
-
 
     }
 
@@ -65,13 +54,12 @@ class MainFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
-
-
-
-
+        binding.inputEditTextOrderNumber.requestFocus()
         ledState.setOnCheckedChangeListener { _, isChecked -> viewModel.changeLedButtonPressed(isChecked) }
+        viewModel.answerFromUsbState.observe(viewLifecycleOwner, {
+            data_from_usb.text = it
+        })
 
         connectButton.setOnClickListener {
             viewModel.connectButtonPressed()

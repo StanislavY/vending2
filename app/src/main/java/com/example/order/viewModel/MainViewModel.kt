@@ -21,19 +21,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 open class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val createLists: CreateListsForFirstAndSecondScreensCase = CreateListsForFirstAndSecondScreensCaseImpl()
-    private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
+    private val createLists: OperationsWithItemsCase = OperationsWithItemsCaseImpl()
     private val customDevice: CustomDevice =
         CustomDeviceImpl(UsbHelperImpl(application.applicationContext))
 
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val retrofit1C: Retrofit1C = Retrofit1C()
-    private val converters: Converters = Converters()
-    private val createListOfOrdersAndStartListItem: CreateListOfAllItemsFrom1CDBCase =
-        CreateListOfAllItemsFrom1CDBCaseImpl()
-    var ticket:List<ListItem> = listOf()
-    var questions: String = "1"
-    var variants: List<ListItem> = listOf()
 
     private val disposable = CompositeDisposable()
 
@@ -101,13 +94,6 @@ open class MainViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 
-
-
-        fun makeOrdersFinishedVM() {
-            makeResultCase.makeOrderFinished()
-
-        }
-
     private fun convertStringToByteArray (string: String):ByteArray{
         val report = ByteArray(2)
         for(char in string.indices){
@@ -150,7 +136,7 @@ open class MainViewModel(application: Application) : AndroidViewModel(applicatio
             if (apiKey.isBlank()) {
                 AppState.Error(Throwable("You need API key"))
             } else {
-                retrofit1C.getRetrofit().pullDataTo1C(resultListItem).enqueue(object :
+                retrofit1C.getRetrofit().pullDataToRemoteServer(resultListItem).enqueue(object :
                     Callback<List<ServerResponseData>> {
                     override fun onResponse(
                         call: Call<List<ServerResponseData>>,
@@ -159,7 +145,7 @@ open class MainViewModel(application: Application) : AndroidViewModel(applicatio
                         if (response.isSuccessful && response.body() != null) {
                             liveDataToObserve.value = AppState.Success(resultListItem)
                             GlobalConstAndVars.LIST_OF_FINISHED_ORDERS = response.body()!!
-                            makeOrdersFinishedVM()
+
 
                         } else {
                             val message = response.message()

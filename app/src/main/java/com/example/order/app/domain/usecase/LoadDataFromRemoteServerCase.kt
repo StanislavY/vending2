@@ -2,8 +2,8 @@ package com.example.order.app.domain.usecase
 
 import com.example.order.app.domain.model.ListItem
 
-interface LoadDataFrom1CCase {
+interface LoadDataFromRemoteServerCase {
    fun  executeDeletingDataFromDb()
-   fun executeDownloadingDataFrom1CToDB(listItemFromServer:List<ListItem>)
+   fun executeDownloadingDataFromServerToDB(listItemFromServer:List<ListItem>)
    suspend fun executeDownloadingDataFromFireBaseToLocalDB(listItemFromFB:List<ListItem>)
 }

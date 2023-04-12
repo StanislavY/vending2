@@ -23,7 +23,7 @@ class LoadingFragment:Fragment() {
     }
     val cloud: FirebaseCaseImpl = FirebaseCaseImpl()
     private val fireBase: FireBaseCase =FirebaseCaseImpl()
-    private val load: LoadDataFrom1CCase = LoadDataFrom1CCaseImpl()
+    private val load: LoadDataFromRemoteServerCase = LoadDataFromRemoteServerCaseImpl()
 
 
 

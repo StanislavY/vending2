@@ -101,7 +101,7 @@ class UsbHelperImpl(context: Context) : UsbHelper {
         GlobalConstAndVars.DATA_FROM_USB=String(report,StandardCharsets.UTF_8)
         return Result.Success(report)
 
-        return Result.Success(report)
+
     }
 
     override fun isConnected(): Result<Error, Empty> {

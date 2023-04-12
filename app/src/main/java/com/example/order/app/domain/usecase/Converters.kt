@@ -71,12 +71,7 @@ open class Converters : ViewModel() {
     fun mapDocumentToRemoteTask(document: DocumentSnapshot) = document.toObject(
         ServerResponseDataFireBase::class.java
     )!!.apply { documentFB = document.id }
-    /*fun parser(stringToParse:ServerResponseDataFireBase, textToFind:String){
-        val scan=Scanner(stringToParse.collection).useDelimiter(":")
-        for (s in scan) {
-           s.contains(textToFind)
-        }
-    }*/
+
     fun mapServerResponseDataFireBaseToListItem(remoteTask: ServerResponseDataFireBase): ListItem {
 
 

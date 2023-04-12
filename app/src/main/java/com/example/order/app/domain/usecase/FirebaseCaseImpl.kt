@@ -34,6 +34,10 @@ class FirebaseCaseImpl:FireBaseCase {
             .setPersistenceEnabled(false)
             .build()
     }
+
+
+
+
     override suspend fun executeAddingDataToFirebase(collectionsName: String): MutableList<ListItem> {
 
         return suspendCoroutine {
@@ -86,6 +90,43 @@ class FirebaseCaseImpl:FireBaseCase {
 
     }
 
+    override suspend fun executeListeningChangesInDocumentFirebase(collectionsName: String): MutableList<ListItem> {
+        val listItems: MutableList<ListItem> = mutableListOf()
+        val docRef = remoteDB.collection(collectionsName).document(GlobalConstAndVars.UID)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                val list = converters.mapDocumentToServerResponseDataFireBase(
+                    snapshot,
+                    collectionsName
+                )
+
+                for (serverResponseDataFireBase in list) {
+                    database.insertToDB(
+                        converters.mapServerResponseDataFireBaseToDBEntity(
+                            serverResponseDataFireBase
+                        )
+                    )
+                    listItems.add(
+                        converters.mapServerResponseDataFireBaseToListItem(
+                            serverResponseDataFireBase
+                        )
+                    )
+
+
+                }
+
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
+        return listItems
+    }
 
 
 
@@ -93,7 +134,7 @@ class FirebaseCaseImpl:FireBaseCase {
 
         return suspendCoroutine {
 
-            var listItems: MutableList<ListItem> = mutableListOf()
+            val listItems: MutableList<ListItem> = mutableListOf()
             var resumed = false
 
 

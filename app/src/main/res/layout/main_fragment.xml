@@ -96,12 +96,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:text="забрать заказ"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lock3" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_edit_text_order_number"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +130,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/load_cell">
     </com.google.android.material.textfield.TextInputEditText>
+
+    <TextView
+        android:id="@+id/data_from_usb"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/good_article_input_edit_text" />
 
 
 
